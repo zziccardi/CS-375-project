@@ -67,6 +67,24 @@ void debugArray() {
     }
 }
 
+void explore(Node& current) {
+	current.color = "gray";
+	ListItem* temp = current.head;
+
+	while(temp != NULL ) {
+		//cout << temp -> id << " " << array[temp->id].color << endl;
+		if(array[temp->id].color == "white") {
+			explore(array[temp->id]);
+		}
+		else {
+			break;
+		}
+		temp = temp->next;
+	}
+	current.color = "black";
+
+}
+
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         fprintf(stderr, "Need one argument (input file)\n");
@@ -120,7 +138,6 @@ int main(int argc, char* argv[]) {
                     for (int j = startIndex; j < line.size(); j++) {
                         sub += line[j];
                     }
-                    
                     array[whichIndex].addItem(stoi(sub, NULL, 10));
                 }
             }
@@ -135,6 +152,16 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
     
+    for(int i = 0; i < nodeCount; i++) {
+    	//cout << i << endl;
+    	if(array[i].color == "white") {
+    		explore(array[i]);
+    	}
+    }
+    
+    for(int i = 0; i < nodeCount; i++) {
+    	cout << array[i].color << endl;
+    }
     //debugArray();
 }
 
