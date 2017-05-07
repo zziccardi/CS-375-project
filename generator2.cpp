@@ -5,7 +5,8 @@
 
 using namespace std;
 
-int nodeCount = 100000000;
+// Specify the desired number of nodes
+int nodeCount = 1000000;
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
@@ -20,8 +21,9 @@ int main(int argc, char* argv[]) {
 	    
 	    int nodesWritten = 0;
 	    
+	    // Create the binary tree
 	    for (int i = 0; i < nodeCount; i++) {
-	        if (nodesWritten+2 < nodeCount) {
+	        if (nodesWritten + 2 < nodeCount) {
 	            int writeMe = 2 * i + 1;
 	            
 	            outputFile << writeMe     << ",";
