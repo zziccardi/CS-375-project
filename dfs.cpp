@@ -3,8 +3,12 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <sys/time.h>
 
 using namespace std;
+
+struct timeval startTime;
+struct timeval stopTime;
 
 class ListItem {
     public:
@@ -67,13 +71,26 @@ void debugArray() {
     }
 }
 
+void printTimeDifference() {
+    long seconds      = stopTime.tv_sec  - startTime.tv_sec;
+    long microseconds = stopTime.tv_usec - startTime.tv_usec;
+    
+    if (microseconds < 0) {
+        seconds--;
+    }
+    
+    long totalMicroseconds = (seconds * 1000000) + abs(microseconds);
+    
+    cout << "Total microseconds: " << totalMicroseconds << endl;
+}
+
 void explore(Node& current) {
 	current.color = "gray";
 	ListItem* temp = current.head;
 
-	while(temp != NULL ) {
+	while (temp != NULL) {
 		//cout << temp -> id << " " << array[temp->id].color << endl;
-		if(array[temp->id].color == "white") {
+		if (array[temp->id].color == "white") {
 			explore(array[temp->id]);
 		}
 		else {
@@ -152,16 +169,29 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
     
-    for(int i = 0; i < nodeCount; i++) {
+    cout << "Testing with " << nodeCount << " nodes" << endl;
+    
+    if (gettimeofday(&startTime, NULL) == -1) {
+        perror("gettimeofday failed");
+    }
+    
+    for (int i = 0; i < nodeCount; i++) {
     	//cout << i << endl;
-    	if(array[i].color == "white") {
+    	if (array[i].color == "white") {
     		explore(array[i]);
     	}
     }
     
-    for(int i = 0; i < nodeCount; i++) {
-    	cout << array[i].color << endl;
+    if (gettimeofday(&stopTime, NULL) == -1) {
+        perror("gettimeofday failed");
     }
+    
+    printTimeDifference();
+    
+//    for (int i = 0; i < nodeCount; i++) {
+//    	cout << array[i].color << endl;
+//    }
+
     //debugArray();
 }
 
