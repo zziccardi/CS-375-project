@@ -1,3 +1,6 @@
+
+# Depth-first search #
+
 To compile the main DFS program (dfs.cpp), run `make dfs`.
 
 To compile the first generator (generator.cpp, which generates regular graphs), run `make generator`.
